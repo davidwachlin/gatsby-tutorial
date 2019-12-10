@@ -15,11 +15,18 @@ const getImages = graphql`
     }
     fluid: file(relativePath: { eq: "image2.jpg" }) {
       childImageSharp {
-        fluid {
+        fluid(maxWidth: 300) {
           ...GatsbyImageSharpFluid_tracedSVG
         }
       }
     }
+    example: file(relativePath: { eq: "image2.jpg" }) {
+        childImageSharp {
+          fluid(maxWidth: 200) {
+            ...GatsbyImageSharpFluid_tracedSVG
+          }
+        }
+      }
   }
 `
 
@@ -39,6 +46,9 @@ const Images = () => {
       <article>
         <h3>fluid image/svg</h3>
         <Image fluid={data.fluid.childImageSharp.fluid} />
+        <div className="small">
+          <Image fluid={data.example.childImageSharp.fluid} />
+        </div>
       </article>
     </Wrapper>
   )
@@ -51,6 +61,9 @@ const Wrapper = styled.section`
   margin: 0 auto 10rem auto;
   .basic {
     width: 80%;
+  }
+  .small {
+      width: 200px;
   }
   article {
     border: 3px solid red;
